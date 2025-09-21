@@ -1,0 +1,17 @@
+uvicorn[standard]
+fastapi
+pydantic[Email]
+python-dotenv
+pymongo
+passlib
+bcrypt
+python-jose[cryptography]
+python-multipart
+httpx
+pytest
+fastapi-limiter
+beanie
+pillow
+APScheduler
+pytz
+cloudinary
