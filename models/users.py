@@ -61,6 +61,16 @@ class Doctor(UserBase, Document):
     patients: Annotated[list[Patient], Field(default_factory=list, serialization_alias="patients")]
     medical_facility: Annotated[Hospital | Clinic, Field(serialization_alias="medicalFacility")]
     reviews: Annotated[list[Reviews], Field(default_factory=list)]
+    
+    
+class Nurse(UserBase, Document):
+    """Nurse Model"""
+    id_number: Annotated[str, Field(max_length=50, serialization_alias="idNumber")]
+    department: Annotated[Optional[str], Field(max_length=100, default=None, serialization_alias="department")]
+    years_of_experience: Annotated[int, Field(ge=0, serialization_alias="yearsOfExperience")]
+    medical_facility: Annotated[Hospital | Clinic, Field(serialization_alias="medicalFacility")]
+    reviews: Annotated[list[Reviews], Field(default_factory=list)]
+
 
 class Admin(UserBase, Document):
     """Admin Model"""
