@@ -2,7 +2,6 @@ uvicorn[standard]
 fastapi
 pydantic[Email]
 python-dotenv
-pymongo
 passlib
 bcrypt
 python-jose[cryptography]
@@ -15,3 +14,5 @@ pillow
 APScheduler
 pytz
 cloudinary
+motor
+jwt

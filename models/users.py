@@ -7,19 +7,12 @@ from beanie import Document
 
 from datetime import datetime
 
-from .helpers import ContactInfo, Reviews
+from .helpers import ContactInfo, Reviews, BirthDetails
 from .treatment import Treatment
 
-from medical_facilities import Pharmacy, Hospital, Clinic
+from .appointment import Appointment
 
-
-class BirthDetails(BaseModel):
-    """Birth Details Model"""
-
-    day: Annotated[int, Field(ge=1, le=31)]
-    month: Annotated[int, Field(ge=1, le=12)]
-    year: Annotated[int, Field(ge=1900, le=2100)]
-
+from .medical_facilities import Pharmacy, Hospital, Clinic
 
 class UserBase(BaseModel):
     """Base Model for all users
@@ -29,7 +22,7 @@ class UserBase(BaseModel):
     first_name: Annotated[str, Field(max_length=50, serialization_alias="firstName")]
     last_name: Annotated[str, Field(max_length=50, serialization_alias="lastName")]
     active: Annotated[bool, Field(default=True)]
-    created_at: Annotated[datetime, Field(default=None, serialization_alias="createdAt", default_factory=datetime.now)]
+    created_at: Annotated[datetime, Field(serialization_alias="createdAt", default_factory=datetime.now)]
     permissions: Annotated[list[str], Field(default_factory=list, serialization_alias="permissions")]
     gender: Annotated[Literal["male", "female", "other"], Field(max_length=10, default=None, serialization_alias="gender")]
     profile_picture: Annotated[Optional[str], Field(default=None, serialization_alias="profilePicture")]
@@ -52,6 +45,7 @@ class Patient(UserBase, Document):
     height: Annotated[Optional[float], Field(ge=0, default=None, serialization_alias="height")]
     weight: Annotated[Optional[float], Field(ge=0, default=None, serialization_alias="weight")]
     treatments: Annotated[list[Optional[Treatment]], Field(default_factory=list, serialization_alias="treatments")]
+    appointments: Annotated[list[Appointment], Field(default_factory=list)]
 
 class Doctor(UserBase, Document):
     """Doctor Model"""
