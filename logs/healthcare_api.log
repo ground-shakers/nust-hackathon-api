@@ -1,0 +1,45 @@
+2025-09-23 22:24:09,137 - passlib.handlers.bcrypt - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\noble\Desktop\nust-hackathon-api\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-09-23 22:24:09,594 - healthcare_api - ERROR - Validation error occurred: 3 validation errors for Doctor
+id_number
+  Field required [type=missing, input_value={'contact_info': {'email'...or', 'get-appointment']}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+medical_facility.Hospital
+  Input should be a valid dictionary or instance of Hospital [type=model_type, input_value='Katutura Hospital', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.11/v/model_type
+medical_facility.Clinic
+  Input should be a valid dictionary or instance of Clinic [type=model_type, input_value='Katutura Hospital', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.11/v/model_type
+2025-09-23 22:26:59,703 - passlib.handlers.bcrypt - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\noble\Desktop\nust-hackathon-api\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-09-23 22:27:00,009 - healthcare_api - ERROR - Validation error occurred: 1 validation error for Doctor
+id_number
+  Field required [type=missing, input_value={'contact_info': {'email'...or', 'get-appointment']}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+2025-09-23 22:35:29,881 - passlib.handlers.bcrypt - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\noble\Desktop\nust-hackathon-api\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-09-23 22:35:30,546 - healthcare_api - INFO - New doctor created with ID: 68d304923acf9d40de9e212c
+2025-09-23 23:15:12,341 - passlib.handlers.bcrypt - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\noble\Desktop\nust-hackathon-api\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+2025-09-23 23:26:54,442 - passlib.handlers.bcrypt - WARNING - (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\noble\Desktop\nust-hackathon-api\.venv\Lib\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'

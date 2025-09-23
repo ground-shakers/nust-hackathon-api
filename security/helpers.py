@@ -33,6 +33,10 @@ oauth2_scheme = OAuth2PasswordBearer(
     scopes={
         "me": "Read information about the current user.",
         "admin": "Admin privileges",
+        "get-patient": "Get patient information",
+        "get-patients": "Get all patients information",
+        "get-doctor": "Get doctor information",
+        "get-appointment": "Get appointment information",
     },
 )
 

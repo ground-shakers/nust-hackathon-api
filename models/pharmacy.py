@@ -1,8 +1,8 @@
 """Pharmacy Model
 """
 
-from beanie import Document
-from pydantic import Field
+from beanie import Document, PydanticObjectId
+from pydantic import Field, field_serializer
 from typing import Annotated, Optional
 
 from .helpers import Reviews
@@ -14,6 +14,10 @@ class DrugManufacturer(Document):
     contact_info: Annotated[str, Field(max_length=100, serialization_alias="contactInfo")]
     website: Annotated[Optional[str], Field(max_length=100, serialization_alias="website")]
 
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
+
 
 class Drug(Document):
     """Drugs Model"""
@@ -23,9 +27,17 @@ class Drug(Document):
     side_effects: Annotated[list[str], Field(default_factory=list, serialization_alias="sideEffects")]
     manufacturer: Annotated[DrugManufacturer, Field()]
 
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
+
 class DrugInventory(Document):
     """Drug Inventory Model"""
     drug_id: Annotated[str, Field(serialization_alias="drugId")]
     pharmacy_id: Annotated[str, Field(serialization_alias="pharmacyId")]
     quantity: Annotated[int, Field(ge=0)]
     price: Annotated[float, Field(ge=0.0)]
+
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)

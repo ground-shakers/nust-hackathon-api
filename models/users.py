@@ -1,9 +1,9 @@
 """User models for the application."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 from typing import Optional, Annotated, Literal
 
-from beanie import Document
+from beanie import Document, PydanticObjectId
 
 from datetime import datetime
 
@@ -47,16 +47,26 @@ class Patient(UserBase, Document):
     treatments: Annotated[list[Optional[Treatment]], Field(default_factory=list, serialization_alias="treatments")]
     appointments: Annotated[list[Appointment], Field(default_factory=list)]
 
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
+
+
 class Doctor(UserBase, Document):
     """Doctor Model"""
     id_number: Annotated[str, Field(max_length=50, serialization_alias="idNumber")]
     specialty: Annotated[list[str], Field(max_length=100, serialization_alias="specialty", default_factory=list)]
     years_of_experience: Annotated[int, Field(ge=0, serialization_alias="yearsOfExperience")]
-    patients: Annotated[list[Patient], Field(default_factory=list, serialization_alias="patients")]
-    medical_facility: Annotated[Hospital | Clinic, Field(serialization_alias="medicalFacility")]
+    patients: Annotated[list[Patient], Field(default_factory=list)]
+    medical_facility: Annotated[str, Field(serialization_alias="medicalFacility")]
     reviews: Annotated[list[Reviews], Field(default_factory=list)]
-    
-    
+    appointments: Annotated[list[str], Field(default_factory=list)]
+
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
+
+
 class Nurse(UserBase, Document):
     """Nurse Model"""
     id_number: Annotated[str, Field(max_length=50, serialization_alias="idNumber")]
@@ -65,12 +75,23 @@ class Nurse(UserBase, Document):
     medical_facility: Annotated[Hospital | Clinic, Field(serialization_alias="medicalFacility")]
     reviews: Annotated[list[Reviews], Field(default_factory=list)]
 
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
+
 
 class Admin(UserBase, Document):
     """Admin Model"""
-    pass
+    
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
 
 
 class Pharmacist(UserBase, Document):
     """Pharmacist Model"""
     pharmacy: Annotated[Pharmacy, Field(serialization_alias="pharmacy")]
+    
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id:PydanticObjectId) -> str:
+        return str(id)

@@ -1,8 +1,8 @@
 """Treatment Model
 """
 
-from beanie import Document
-from pydantic import Field
+from beanie import Document, PydanticObjectId
+from pydantic import Field, field_serializer
 from typing import Annotated
 
 from datetime import datetime

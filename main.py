@@ -1,4 +1,7 @@
 import os
+import redis.asyncio as redis
+
+from fastapi_limiter import FastAPILimiter
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +14,9 @@ from models.medical_facilities import Hospital, Clinic
 from models.pharmacy import Drug, DrugInventory, DrugManufacturer
 from models.diagnosis import Diagnosis
 
-from routers import users, patient, auth
+from middleware.idempotency import IdempotencyMiddleware
+
+from routers import doctor, patient, auth
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -30,9 +35,17 @@ async def lifespan(app: FastAPI):
         database=client[os.getenv("DATABASE_NAME")],
         document_models=[Patient, Doctor, Nurse, Appointment, Treatment, Hospital, Clinic, Drug, DrugInventory, DrugManufacturer, Diagnosis, Admin, Pharmacist],
     )
+    
+    redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+    redis_connection = redis.from_url(
+        redis_url, encoding="utf-8", decode_responses=True
+    )
+    await FastAPILimiter.init(redis_connection)
+    
     yield
     client.close()
-    
+    await redis_connection.close()
+
 app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
@@ -42,6 +55,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(
+    IdempotencyMiddleware,
+    ttl_seconds=3600,
+    lock_ttl=10,
+)
 
 app.include_router(auth.router)
 app.include_router(patient.router)
+app.include_router(doctor.router)

@@ -90,3 +90,15 @@ class UserCreateRequestBase(BaseModel):
 
 class PatientCreateRequest(UserCreateRequestBase):
     """Patient Creation Request Schema"""
+    pass
+
+
+class DoctorCreateRequest(UserCreateRequestBase):
+    """Doctor Creation Request Schema"""
+    id_number: Annotated[str, Field(max_length=50, serialization_alias="idNumber")]
+    specialty: Annotated[
+        list[str],
+        Field(max_length=100, serialization_alias="specialty", default_factory=list),
+    ]
+    years_of_experience: Annotated[int, Field(ge=0, serialization_alias="yearsOfExperience")]
+    medical_facility: Annotated[str, Field(serialization_alias="medicalFacility")]

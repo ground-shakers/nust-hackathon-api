@@ -2,8 +2,10 @@
 Contains all the database models for the diagnosis module.
 """
 
+from beanie import PydanticObjectId
+
 from beanie import Document
-from pydantic import Field
+from pydantic import Field, field_serializer
 from typing import Annotated
 
 
@@ -15,3 +17,7 @@ class Diagnosis(Document):
     description: Annotated[str, Field(description="Detailed description of the diagnosis", serialization_alias="description")]
     precautions: Annotated[list[str], Field(description="List of precautions to be taken", default_factory=list, serialization_alias="precautions")]
     severity_assessment: Annotated[str, Field(description="Assessment of the severity of the diagnosis", serialization_alias="severityAssessment")]
+
+    @field_serializer("id")
+    def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
+        return str(id)
