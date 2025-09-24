@@ -16,6 +16,4 @@ pytz
 cloudinary
 motor
 jwt
-vonage
 httpx
-twilio
