@@ -16,7 +16,7 @@ from models.diagnosis import Diagnosis
 
 from middleware.idempotency import IdempotencyMiddleware
 
-from routers import doctor, patient, auth
+from routers import doctor, patient, auth, appointment
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -46,7 +46,11 @@ async def lifespan(app: FastAPI):
     client.close()
     await redis_connection.close()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="HealthCare API",
+    description="A comprehensive API for managing healthcare services, including patient records, doctor profiles, appointments",
+    lifespan=lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -64,3 +68,4 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(patient.router)
 app.include_router(doctor.router)
+app.include_router(appointment.router)

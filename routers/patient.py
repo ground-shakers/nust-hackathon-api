@@ -23,9 +23,11 @@ from security.helpers import get_password_hash, get_current_active_user
 
 
 router = APIRouter(
-    prefix="/patients",
+    prefix="/api/v1/patients",
     tags=["Patients"],
-    dependencies=[Depends(RateLimiter(times=5, seconds=60))],  # Limit to 5 requests per minute per IP
+    dependencies=[
+        Depends(RateLimiter(times=5, seconds=60))
+    ],  # Limit to 5 requests per minute per IP
 )
 
 

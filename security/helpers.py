@@ -10,7 +10,7 @@ from fastapi.security import (
 from jose import jwt
 from jose.exceptions import ExpiredSignatureError
 
-from jwt.exceptions import JWTException
+from jwt.exceptions import PyJWTError, InvalidTokenError
 
 from .schema import TokenData
 
@@ -113,7 +113,7 @@ async def get_current_user(
             raise credentials_exception
         token_scopes: list = payload.get("scopes", [])
         token_data = TokenData(scopes=token_scopes, username=username)
-    except (ValidationError, JWTException):
+    except (ValidationError, PyJWTError):
         raise credentials_exception
     except ExpiredSignatureError:
         raise HTTPException(

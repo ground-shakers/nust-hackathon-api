@@ -45,7 +45,7 @@ class Patient(UserBase, Document):
     height: Annotated[Optional[float], Field(ge=0, default=None, serialization_alias="height")]
     weight: Annotated[Optional[float], Field(ge=0, default=None, serialization_alias="weight")]
     treatments: Annotated[list[Optional[Treatment]], Field(default_factory=list, serialization_alias="treatments")]
-    appointments: Annotated[list[Appointment], Field(default_factory=list)]
+    appointments: Annotated[list[str], Field(default_factory=list)]
 
     @field_serializer("id")
     def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
