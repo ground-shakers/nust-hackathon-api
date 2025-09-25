@@ -16,7 +16,7 @@ from models.diagnosis import Diagnosis
 
 from middleware.idempotency import IdempotencyMiddleware
 
-from routers import doctor, patient, auth, appointment
+from routers import doctor, patient, auth, appointment, diagnosis
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -69,3 +69,4 @@ app.include_router(auth.router)
 app.include_router(patient.router)
 app.include_router(doctor.router)
 app.include_router(appointment.router)
+app.include_router(diagnosis.router)
