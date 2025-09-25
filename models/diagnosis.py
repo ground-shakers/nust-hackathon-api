@@ -20,6 +20,7 @@ class Diagnosis(Document):
     initial_symptom: Annotated[str, Field(description="Initial symptom reported by the user", default=None, serialization_alias="initialSymptom")]
     additional_symptoms: Annotated[list[str], Field(description="List of additional symptoms reported by the user", default_factory=list, serialization_alias="additionalSymptoms")]
     days_experiencing: Annotated[int, Field(description="Number of days the user has been experiencing symptoms", default=0, serialization_alias="daysExperiencingSymptoms")]
+    confidence_level: Annotated[str, Field(description="Confidence level of the diagnosis", serialization_alias="confidenceLevel")]
 
     @field_serializer("id")
     def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:

@@ -27,7 +27,6 @@ class UserBase(BaseModel):
     gender: Annotated[Literal["male", "female", "other"], Field(max_length=10, default=None, serialization_alias="gender")]
     profile_picture: Annotated[Optional[str], Field(default=None, serialization_alias="profilePicture")]
     birth_details: Annotated[BirthDetails, Field(serialization_alias="birthDetails")]
-    role: Annotated[Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()]
 
 class Patient(UserBase, Document):
     """Patient Model"""
@@ -47,6 +46,9 @@ class Patient(UserBase, Document):
     weight: Annotated[Optional[float], Field(ge=0, default=None, serialization_alias="weight")]
     treatments: Annotated[list[Optional[Treatment]], Field(default_factory=list, serialization_alias="treatments")]
     appointments: Annotated[list[str], Field(default_factory=list)]
+    role: Annotated[
+        Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()
+    ]
 
     @field_serializer("id")
     def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
@@ -62,6 +64,9 @@ class Doctor(UserBase, Document):
     medical_facility: Annotated[str, Field(serialization_alias="medicalFacility")]
     reviews: Annotated[list[Reviews], Field(default_factory=list)]
     appointments: Annotated[list[str], Field(default_factory=list)]
+    role: Annotated[
+        Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()
+    ]
 
     @field_serializer("id")
     def convert_pydantic_object_id_to_string(self, id: PydanticObjectId) -> str:
