@@ -43,6 +43,7 @@ async def create_new_patient(request: PatientCreateRequest):
         request.password = get_password_hash(request.password)
 
         new_patient = Patient(
+            role="patient",
             **request.model_dump(exclude=["verify_password", "permissions"]),
             permissions=["me", "get-patient"],
         )
