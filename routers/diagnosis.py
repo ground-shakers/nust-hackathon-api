@@ -13,6 +13,7 @@ from typing import List, Annotated, Optional
 
 from pydantic import ValidationError, Field
 from models.diagnosis import Diagnosis
+from models.users import Patient
 from schema.requests.diagnosis import DiagnosisCreateRequest
 
 
@@ -31,7 +32,18 @@ async def create_diagnosis(request: DiagnosisCreateRequest):
     """
     try:
         new_diagnosis = Diagnosis(**request.model_dump())
+        patient = await Patient.get(PydanticObjectId(request.diagnosed_user_id))
+        
+        if not patient:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Patient not found with ID: {request.diagnosed_user_id}",
+            )
+        
         await new_diagnosis.save()
+        
+        patient.diagnoses.append(str(new_diagnosis.id))
+        await patient.save()
 
         logger.info(f"New diagnosis created with ID: {new_diagnosis.id}")
 
