@@ -12,3 +12,4 @@ class DiagnosisCreateRequest(BaseModel):
     description: str
     precautions: Annotated[list[str], Field(description="List of precautions to take")]
     severity_assessment: str
+    diagnosed_user_id: str
