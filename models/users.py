@@ -27,6 +27,7 @@ class UserBase(BaseModel):
     gender: Annotated[Literal["male", "female", "other"], Field(max_length=10, default=None, serialization_alias="gender")]
     profile_picture: Annotated[Optional[str], Field(default=None, serialization_alias="profilePicture")]
     birth_details: Annotated[BirthDetails, Field(serialization_alias="birthDetails")]
+    role: Annotated[Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()]
 
 class Patient(UserBase, Document):
     """Patient Model"""

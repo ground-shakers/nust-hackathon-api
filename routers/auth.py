@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 from security.helpers import authenticate_user, create_access_token
 
-from security.schema import Token
+from security.schema import Token, LoginResponse
 
 load_dotenv()
 
@@ -18,7 +18,7 @@ load_dotenv()
 router = APIRouter(tags=["Auth"])
 
 
-@router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)
+@router.post("/login", response_model=LoginResponse, status_code=status.HTTP_200_OK)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
@@ -33,9 +33,14 @@ async def login_for_access_token(
             expires_delta=access_token_expires,
         )
 
-        return Token(
-            access_token=access_token,
-            token_type="bearer",
+        return LoginResponse(
+            message="Login successful",
+            token=Token(
+                access_token=access_token,
+                token_type="bearer",
+            ),
+            user_id=str(user.id),
+            role=user.role,
         )
 
     raise HTTPException(

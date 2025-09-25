@@ -106,7 +106,6 @@ async def get_doctor(
 
 @router.get("", response_model=List[DoctorInDB])
 async def get_doctors(
-    current_user: Annotated[Admin, Security(get_current_active_user, scopes=["admin"])],
     skip: int = Query(0, ge=0, description="Number of records to skip"),
     limit: int = Query(10, le=100, description="Max number of records to return")
 ):

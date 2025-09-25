@@ -64,6 +64,7 @@ class PatientInDB(BaseModel):
         Field(default_factory=list, serialization_alias="treatments"),
     ]
     appointments: Annotated[list[Appointment], Field(default_factory=list)]
+    role: Annotated[Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()]
 
 
 class DoctorInDB(BaseModel):
@@ -93,13 +94,16 @@ class DoctorInDB(BaseModel):
     medical_facility: Annotated[str, Field(serialization_alias="medicalFacility")]
     reviews: Annotated[list, Field(default_factory=list)]
     appointments: Annotated[list[str], Field(default_factory=list)]
+    role: Annotated[
+        Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()
+    ]
 
 class PatientResponse(BaseModel):
     """Response Model for Patient"""
     message: Annotated[str, Field(default="Account created successfully")]
     patient: Annotated[PatientInDB, Field()]
-    
-    
+
+
 class DoctorResponse(BaseModel):
     """Response Model for Doctor"""
     message: Annotated[str, Field(default="Account created successfully")]
