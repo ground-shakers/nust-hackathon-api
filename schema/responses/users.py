@@ -63,7 +63,7 @@ class PatientInDB(BaseModel):
         list[Optional[Treatment]],
         Field(default_factory=list, serialization_alias="treatments"),
     ]
-    appointments: Annotated[list[Appointment], Field(default_factory=list)]
+    appointments: Annotated[list[str], Field(default_factory=list)]
     role: Annotated[Literal["patient", "doctor", "nurse", "admin", "pharmacist"], Field()]
 
 
