@@ -73,7 +73,7 @@ async def create_new_patient(request: PatientCreateRequest):
 
 
 @router.get("/{patient_id}", response_model=PatientResponse)
-async def get_patient(patient_id: Annotated[str, Field(..., max_length=100, description="The ID of the patient to retrieve")], current_user: Annotated[Patient | Pharmacist | Admin | Nurse | Doctor, Security(get_current_active_user, scopes=["get-patient"])]):
+async def get_patient(patient_id: Annotated[str, Field(..., max_length=100, description="The ID of the patient to retrieve")]):
     """
     Endpoint to retrieve a patient's details by their ID.
     """
@@ -83,13 +83,6 @@ async def get_patient(patient_id: Annotated[str, Field(..., max_length=100, desc
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Patient not found"
-        )
-
-    # Ensure patients can only access their own data
-    if current_user.id != patient_id and isinstance(current_user, Patient):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Not enough permissions to access this patient's data"
         )
 
     patient_in_db = PatientInDB(**patient.model_dump())
