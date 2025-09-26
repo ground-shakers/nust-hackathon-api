@@ -77,7 +77,7 @@ async def get_patient(patient_id: Annotated[str, Field(..., max_length=100, desc
     """
     Endpoint to retrieve a patient's details by their ID.
     """
-    patient = await Patient.get(patient_id)
+    patient = await Patient.get(PydanticObjectId(patient_id))
 
     if not patient:
         raise HTTPException(
