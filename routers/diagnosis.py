@@ -110,7 +110,7 @@ async def get_diagnoses(
     """
     try:
         if user_id:
-            diagnoses = await Diagnosis.find(Diagnosis.user_id == user_id).limit(limit).skip(skip).to_list()
+            diagnoses = await Diagnosis.find(Diagnosis.diagnosed_user_id == user_id).limit(limit).skip(skip).to_list()
         else:
             diagnoses = await Diagnosis.find().limit(limit).skip(skip).to_list()
         return diagnoses
