@@ -69,10 +69,10 @@ async def create_appointment(request: AppointmentCreateRequest, background_tasks
         return AppointmentCreateResponse(message="Appointment created successfully", appointment=appointment_in_db)
     except ValidationError as e:
         logger.error(f"Validation error occurred: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong: {e}")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong: {e}")
     
     
 @router.get("/{appointment_id}", response_model=AppointmentInDB, status_code=status.HTTP_200_OK)
@@ -94,11 +94,11 @@ async def get_appointment(appointment_id: str):
     except DocumentNotFound:
         
         logger.error("Appointment not found")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Appointment not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Appointment not found: {e}")
     except Exception as e:
         
         logger.error(f"An error occurred: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong: {e}")
 
 
 @router.get("", response_model=List[AppointmentInDB], status_code=status.HTTP_200_OK)
@@ -133,7 +133,7 @@ async def get_appointments(
         return [AppointmentInDB(**appointment.model_dump()) for appointment in appointments]
     except DocumentNotFound:
         logger.error("No appointments found")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No appointments found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No appointments found: {e}")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong: {e}")

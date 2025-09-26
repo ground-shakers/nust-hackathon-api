@@ -61,13 +61,13 @@ async def create_new_doctor(request: DoctorCreateRequest):
         logger.error(f"Validation error occurred: {e}")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"detail": "Something went wrong"},
+            content={"detail": f"Something went wrong: {e}"},
         )
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"detail": "Something went wrong"},
+            content={"detail": f"Something went wrong {e}"},
         )
 
 

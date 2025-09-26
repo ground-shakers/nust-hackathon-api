@@ -58,13 +58,13 @@ async def create_diagnosis(request: DiagnosisCreateRequest):
         logger.error(f"Validation error occurred: {e}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid data provided",
+            detail=f"Invalid data provided: {e}",
         )
     except Exception as e:
         logger.error(f"An error occurred while creating diagnosis: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while creating the diagnosis",
+            detail=f"An error occurred while creating the diagnosis {e}",
         )
         
         
@@ -95,7 +95,7 @@ async def get_diagnosis(
         logger.error(f"An error occurred while retrieving diagnosis: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while retrieving the diagnosis",
+            detail=f"An error occurred while retrieving the diagnosis: {e}",
         )
         
         
@@ -118,5 +118,5 @@ async def get_diagnoses(
         logger.error(f"An error occurred while retrieving diagnoses: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while retrieving diagnoses",
+            detail=f"An error occurred while retrieving diagnoses: {e}",
         )
