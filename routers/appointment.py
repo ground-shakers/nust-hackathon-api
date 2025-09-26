@@ -48,11 +48,17 @@ async def create_appointment(request: AppointmentCreateRequest, background_tasks
 
         if not patient_in_db:
             logger.error(f"Patient with ID {new_appointment.patient} not found.")
-            return
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Patient with ID {new_appointment.patient} not found"
+            )
         
         if not doctor_in_db:
             logger.error(f"Doctor with ID {new_appointment.doctor} not found.")
-            return
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Doctor with ID {new_appointment.doctor} not found"
+            )
 
         await new_appointment.save()
 
@@ -94,7 +100,7 @@ async def get_appointment(appointment_id: str):
     except DocumentNotFound:
         
         logger.error("Appointment not found")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Appointment not found: {e}")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Appointment not found")
     except Exception as e:
         
         logger.error(f"An error occurred: {e}")
@@ -133,7 +139,7 @@ async def get_appointments(
         return [AppointmentInDB(**appointment.model_dump()) for appointment in appointments]
     except DocumentNotFound:
         logger.error("No appointments found")
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No appointments found: {e}")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No appointments found")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Something went wrong: {e}")
